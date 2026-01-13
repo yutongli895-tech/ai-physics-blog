@@ -1,0 +1,162 @@
+<!-- 
+    路径: layouts/partials/extend_footer.html 
+    功能: 物理主题背景层、能量感侧边装饰、物理教研页脚（含统计与身份标识）及管理工具
+-->
+
+<!-- 1. 背景层容器 (对应 extend_head.html 中的样式变量) -->
+<div id="custom-bg-layer"></div>
+<div id="bg-overlay-layer"></div>
+
+<!-- 2. 侧边悬浮装饰框 (物理学科定制) -->
+<div class="floating-panel pos-l">
+    <div class="panel-content">物理逻辑 · 算法推演</div>
+</div>
+
+<div class="floating-panel pos-r">
+    <div class="panel-content">能量守恒 · 智慧赋能</div>
+</div>
+
+<!-- 3. 页脚自定义内容区 -->
+<div class="footer-custom" style="text-align:center; padding:50px 20px; margin-top:80px; border-top:1px solid #e2e8f0; color:#64748b; font-size:0.9rem;">
+    <!-- 身份标识区：课题组与公众号 -->
+    <div onclick="loginAdmin()" style="cursor:pointer; margin-bottom:25px; display:flex; justify-content:center; gap:15px; align-items:center; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:8px;">
+            <span style="background:var(--theme); color:white; padding:4px 12px; border-radius:6px; font-weight:bold; box-shadow:0 4px 12px rgba(139, 92, 246, 0.3);">AI 物理课题组</span>
+            <strong style="color:var(--primary); font-family:'JetBrains Mono', monospace;">@Logic Simulation Lab</strong>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+            <span style="background:#0f172a; color:white; padding:4px 12px; border-radius:6px; font-weight:bold;">公众号</span>
+            <strong style="color:var(--primary);">@浅墨青言</strong>
+        </div>
+    </div>
+
+    <!-- 实时数理时钟 -->
+    <div id="realtime-clock" style="font-family:'JetBrains Mono', monospace; color:var(--theme); font-weight:700; margin-bottom:15px; letter-spacing:1px;">
+        ENERGY_SYSTEM_SCANNING...
+    </div>
+    
+    <!-- 浏览数据统计区 (物理术语化) -->
+    <div style="font-size:0.85rem; line-height:2; opacity:0.9;">
+        <span id="busuanzi_container_site_uv" style="display:inline; margin-right: 20px;">
+            🔭 访客波段: <span id="busuanzi_value_site_uv" style="color:var(--theme); font-weight:bold;">--</span>
+        </span>
+        <span id="busuanzi_container_site_pv" style="display:inline;">
+            ⚡ 能量总计: <span id="busuanzi_value_site_pv" style="color:var(--theme); font-weight:bold;">--</span>
+        </span>
+        <br/>
+        <span style="margin-top: 8px; display: block; letter-spacing: 1px; font-family:'JetBrains Mono';">ENTROPY DECREASING · WISDOM INCREASING</span>
+    </div>
+</div>
+
+<!-- 4. 管理员工具箱 (口令: admin888) -->
+<div id="admin-tools">
+    <div id="admin-panel" style="display:none; position:fixed; bottom:90px; right:30px; background:white; padding:20px; border-radius:15px; box-shadow:0 10px 40px rgba(0,0,0,0.2); width:280px; border:1px solid #f1f5f9; z-index:999;">
+        <h4 style="margin:0 0 15px 0; color:var(--theme); border-bottom:2px solid var(--theme); display:inline-block; font-family:'JetBrains Mono';">⚛️ Physics Admin</h4>
+        
+        <!-- 背景更换预览 -->
+        <p style="font-size:12px; color:#94a3b8; margin:10px 0 5px 0;">能量场背景预览 (URL):</p>
+        <div style="display:flex; gap:5px; margin-bottom:15px;">
+            <input type="text" id="bg-input" placeholder="输入实验素材URL..." style="flex:1; padding:6px; border:1px solid #e2e8f0; border-radius:6px; font-size:11px; outline:none;">
+            <button onclick="previewBg()" style="padding:6px 12px; background:var(--theme); color:white; border:none; border-radius:6px; cursor:pointer; font-size:11px; font-weight:600;">Update</button>
+        </div>
+
+        <!-- 写稿模板 -->
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:5px;">教研内容生成：</p>
+        <button onclick="genPhyTemplate()" style="width:100%; padding:8px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer; font-size:11px; font-weight:600;">生成物理实验模板</button>
+        
+        <textarea id="admin-output" style="width:100%; height:80px; font-size:10px; padding:5px; border:1px solid #eee; background:#f9f9f9; display:none; margin-top:10px; resize:none; font-family:'JetBrains Mono'; color:#666;"></textarea>
+    </div>
+    
+    <!-- 悬浮管理按钮 -->
+    <div id="toggle-admin" style="display:none; position:fixed; bottom:30px; right:30px; width:46px; height:46px; background:var(--primary); color:white; border-radius:50%; justify-content:center; align-items:center; cursor:pointer; font-size:1.4rem; box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:1000; transition: transform 0.2s;" onclick="toggleAdminPanel()">⚙️</div>
+</div>
+
+<!-- 5. 核心逻辑脚本 -->
+<script>
+    // --- 5.1 实时数理时钟 ---
+    function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleString('zh-CN', { 
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        const el = document.getElementById('realtime-clock');
+        if (el) el.innerHTML = timeString + " [ENERGY_STABLE]";
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // --- 5.2 管理登录逻辑 (口令: admin888) ---
+    function loginAdmin() {
+        const key = prompt("请输入量子加密密钥：");
+        if (key === "admin888") {
+            const btn = document.getElementById('toggle-admin');
+            if (btn) btn.style.display = 'flex';
+            sessionStorage.setItem('phy_admin_active', 'true');
+            alert("✓ 能量场访问权限已解锁");
+        } else if (key !== null) {
+            alert("✗ 密钥错误，逻辑验证未通过");
+        }
+    }
+
+    // --- 5.3 面板切换 ---
+    function toggleAdminPanel() {
+        const panel = document.getElementById('admin-panel');
+        if (panel) {
+            panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+        }
+    }
+
+    // --- 5.4 背景实时预览 ---
+    function previewBg() {
+        const url = document.getElementById('bg-input').value.trim();
+        if (url) {
+            document.documentElement.style.setProperty('--global-bg', `url('${url}')`);
+        }
+    }
+
+    // --- 5.5 生成物理实验文章模板 ---
+    function genPhyTemplate() {
+        const output = document.getElementById('admin-output');
+        const title = prompt("请输入实验文章标题：") || "基于 AI 的量子干涉仿真教学";
+        const template = `---
+title: "${title}"
+date: ${new Date().toISOString()}
+draft: false
+author: "物理课题组"
+description: "本文利用 AI 生成的仿真脚本探讨了高二物理中..."
+tags: ["AI", "物理实验", "量子力学"]
+---
+
+### 1. 实验逻辑模型
+通过大规模语言模型构建受力分析矩阵...
+
+### 2. 仿真参数设定
+$$F = m \cdot a$$
+此处插入 AI 生成的代码片段或公式。
+
+### 3. 结果探析
+数据拟合显示...`;
+
+        output.style.display = 'block';
+        output.value = template;
+        output.select();
+        try {
+            document.execCommand('copy');
+            alert("✓ 物理实验模板已生成并复制");
+        } catch (e) {}
+    }
+
+    // 状态保持
+    window.addEventListener('DOMContentLoaded', () => {
+        if (sessionStorage.getItem('phy_admin_active') === 'true') {
+            const btn = document.getElementById('toggle-admin');
+            if (btn) btn.style.display = 'flex';
+        }
+    });
+</script>
+
+<!-- 6. 不蒜子访问统计脚本 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

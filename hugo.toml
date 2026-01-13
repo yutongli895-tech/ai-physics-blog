@@ -1,3 +1,47 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
+baseURL = 'https://aiwuli.de5.net/'
+theme = "PaperMod"
+languageCode = 'zh-cn'
+title = 'AI赋能物理教学资源建设'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true  # 允许渲染自定义 HTML 和样式
+
+[params]
+    # 物理学科感背景图：科技、原子、实验室或深邃宇宙
+    backgroundUrl = "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80"
+    
+    env = "production"
+    title = "AI 物理教学"
+    description = "探索人工智能在物理模拟、实验教学及逻辑推演中的深度应用"
+    
+    ShowReadingTime = true
+    ShowCodeCopyButtons = true
+    ShowToc = true
+
+    # 首页专家模式 (Profile Mode)
+    [params.profileMode]
+        enabled = true
+        title = "AI 赋能物理教学资源建设"
+        subtitle = "「 智驭能量 · 洞见规律 」<br/><span class='phy-subtitle'>Quantum Physics · Intelligent Education</span>"
+        [[params.profileMode.buttons]]
+            name = "🔋 资源库"
+            url = "/posts"
+        [[params.profileMode.buttons]]
+            name = "⚛️ 课题简介"
+            url = "/about"
+
+# 菜单配置
+[[menu.main]]
+    name = "首页"
+    url = "/"
+    weight = 10
+[[menu.main]]
+    name = "物理资源"
+    url = "/posts"
+    weight = 20
+[[menu.main]]
+    name = "课题简介"
+    url = "/about"
+    weight = 30

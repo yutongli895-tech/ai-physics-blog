@@ -1,0 +1,114 @@
+<!-- 路径: layouts/partials/extend_head.html -->
+<style>
+    /* 引入硬核科技感的字体 JetBrains Mono (代码与物理公式常用) 和思源黑体 */
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap');
+
+    :root {
+        --theme: #8b5cf6;      /* 电子紫 - 代表高能物理与量子感 */
+        --primary: #0f172a;    /* 宇宙深蓝 - 基础背景色 */
+        --entry: rgba(255, 255, 255, 0.9); 
+        --bg-overlay: rgba(241, 245, 249, 0.9); 
+        --global-bg: url('{{ .Site.Params.backgroundUrl }}');
+    }
+
+    /* 1. 顶部能量流光条 - 模拟粒子加速器内的光流速度感 */
+    body::before {
+        content: "";
+        display: block; height: 4px; width: 100%;
+        background: linear-gradient(90deg, #a855f7, #3b82f6, #06b6d4, #a855f7);
+        background-size: 300% 100%;
+        animation: energyFlow 4s linear infinite;
+        position: fixed; top: 0; left: 0; z-index: 9999;
+    }
+    @keyframes energyFlow {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
+
+    /* 2. 全局背景与物理坐标纸质感 */
+    body {
+        position: relative; min-height: 100vh;
+        background-color: #f8fafc !important;
+        /* 优先使用思源黑体，并在英文部分应用 JetBrains Mono */
+        font-family: "Noto Sans SC", "JetBrains Mono", -apple-system, sans-serif !important;
+        color: var(--primary) !important;
+        line-height: 1.7;
+    }
+
+    /* 背景装饰层 */
+    #custom-bg-layer {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+        background-image: var(--global-bg);
+        background-size: cover; background-position: center; background-attachment: fixed;
+    }
+
+    #bg-overlay-layer {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        background: var(--bg-overlay);
+        /* 物理实验坐标纸纹理 - 模拟精密绘图感 */
+        background-image: linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+        background-size: 30px 30px;
+        pointer-events: none;
+    }
+
+    /* 3. 侧边悬浮装饰（物理学科定制） */
+    .floating-panel {
+        position: fixed; top: 50%; transform: translateY(-50%);
+        width: 120px; height: 320px;
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        border: 2px solid var(--theme);
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        z-index: 90; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.15);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pos-l { left: 30px; }
+    .pos-r { right: 30px; }
+
+    .floating-panel:hover {
+        transform: translateY(-50%) scale(1.05);
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 20px 45px rgba(139, 92, 246, 0.25);
+    }
+
+    .panel-content {
+        writing-mode: vertical-rl;
+        letter-spacing: 6px;
+        font-weight: 800;
+        color: var(--theme);
+        font-size: 1.15rem;
+        text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+    }
+
+    /* 首页副标题特定样式 */
+    .phy-subtitle {
+        font-family: 'JetBrains Mono', monospace;
+        background: rgba(139, 92, 246, 0.1);
+        padding: 2px 10px;
+        border-radius: 6px;
+        color: var(--theme);
+        font-size: 0.9rem;
+        border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    /* 适配移动端：隐藏侧边装饰 */
+    @media screen and (max-width: 1350px) { 
+        .floating-panel { display: none; } 
+    }
+
+    /* 列表项卡片物理感增强 */
+    .post-entry {
+        background: var(--entry) !important;
+        border: 1px solid rgba(139, 92, 246, 0.1) !important;
+        border-radius: 16px !important;
+        transition: all 0.3s ease !important;
+        overflow: hidden;
+    }
+    .post-entry:hover {
+        transform: translateY(-5px);
+        border-color: var(--theme) !important;
+        box-shadow: 0 12px 30px rgba(139, 92, 246, 0.1) !important;
+    }
+</style>
